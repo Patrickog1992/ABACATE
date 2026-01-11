@@ -71,19 +71,19 @@ export const LandingPage: React.FC = () => {
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col font-poppins relative overflow-x-hidden">
       
-      {/* Social Proof Popup - Top Right, Extra Small */}
+      {/* Social Proof Popup - Top Right, Small but Wide enough for text */}
       <div 
         className={`fixed top-2 right-2 z-50 transition-all duration-500 transform ${isNotificationVisible ? 'translate-x-0 opacity-100' : 'translate-x-10 opacity-0 pointer-events-none'}`}
       >
         {currentNotification && (
-          <div className="bg-white/95 backdrop-blur-sm shadow-sm rounded p-1.5 border border-gray-100 flex items-center gap-1.5 max-w-[160px]">
-            <div className="bg-green-100 p-0.5 rounded-full shrink-0">
-              <CheckCircle size={10} className="text-green-600" />
+          <div className="bg-white/95 backdrop-blur-sm shadow-sm rounded p-2 border border-gray-100 flex items-center gap-2 max-w-[240px]">
+            <div className="bg-green-100 p-1 rounded-full shrink-0">
+              <CheckCircle size={12} className="text-green-600" />
             </div>
             <div>
-              <p className="text-[8px] font-bold text-gray-800 leading-none mb-0.5">{currentNotification.name}</p>
-              <p className="text-[7px] text-gray-500 leading-none">
-                de {currentNotification.city} <span className="text-green-600 font-semibold">recebeu...</span>
+              <p className="text-[9px] font-bold text-gray-800 leading-tight mb-0.5">{currentNotification.name}</p>
+              <p className="text-[8px] text-gray-500 leading-tight">
+                de {currentNotification.city} <span className="text-green-600 font-semibold">recebeu o protocolo</span>
               </p>
             </div>
           </div>

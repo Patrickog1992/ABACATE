@@ -450,7 +450,7 @@ export const ChatPage: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col h-screen bg-[#efeae2] max-w-lg mx-auto shadow-2xl overflow-hidden relative">
+    <div className="flex flex-col h-screen bg-[#efeae2] max-w-lg mx-auto shadow-2xl overflow-hidden relative font-poppins">
       
       {/* WhatsApp Header */}
       <div className="bg-[#008069] p-3 flex items-center text-white shrink-0 z-10 shadow-md">

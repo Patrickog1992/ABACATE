@@ -1,8 +1,24 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { CheckCircle } from 'lucide-react';
+
+const NOTIFICATIONS = [
+  { name: 'Maria Silva', city: 'São Paulo, SP' },
+  { name: 'Ana Souza', city: 'Rio de Janeiro, RJ' },
+  { name: 'Josefa Oliveira', city: 'Salvador, BA' },
+  { name: 'Francisca Santos', city: 'Belo Horizonte, MG' },
+  { name: 'Antônia Lima', city: 'Fortaleza, CE' },
+  { name: 'Adriana Pereira', city: 'Curitiba, PR' },
+  { name: 'Lúcia Ferreira', city: 'Recife, PE' },
+  { name: 'Márcia Rodrigues', city: 'Porto Alegre, RS' },
+  { name: 'Sandra Costa', city: 'Manaus, AM' },
+  { name: 'Patrícia Alves', city: 'Brasília, DF' }
+];
 
 export const LandingPage: React.FC = () => {
   const [showButton, setShowButton] = useState(false);
+  const [currentNotification, setCurrentNotification] = useState<{ name: string, city: string } | null>(null);
+  const [isNotificationVisible, setIsNotificationVisible] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -17,9 +33,6 @@ export const LandingPage: React.FC = () => {
       setShowButton(true);
     }, 180000); 
 
-    // For testing purposes, uncomment below to show button quickly
-    // const timer = setTimeout(() => setShowButton(true), 5000);
-
     return () => {
       clearTimeout(timer);
       if(document.head.contains(script)) {
@@ -28,10 +41,55 @@ export const LandingPage: React.FC = () => {
     };
   }, []);
 
+  // Logic for Social Proof Popup
+  useEffect(() => {
+    const showRandomNotification = () => {
+      const random = NOTIFICATIONS[Math.floor(Math.random() * NOTIFICATIONS.length)];
+      setCurrentNotification(random);
+      setIsNotificationVisible(true);
+
+      // Hide after 4 seconds
+      setTimeout(() => {
+        setIsNotificationVisible(false);
+      }, 4000);
+    };
+
+    // Initial delay
+    const initialDelay = setTimeout(showRandomNotification, 3000);
+
+    // Loop every 10 seconds
+    const interval = setInterval(showRandomNotification, 10000);
+
+    return () => {
+      clearTimeout(initialDelay);
+      clearInterval(interval);
+    };
+  }, []);
+
   const today = new Date().toLocaleDateString('pt-BR');
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col font-poppins">
+    <div className="min-h-screen bg-gray-50 flex flex-col font-poppins relative overflow-x-hidden">
+      
+      {/* Social Proof Popup - Top Right, Extra Small */}
+      <div 
+        className={`fixed top-2 right-2 z-50 transition-all duration-500 transform ${isNotificationVisible ? 'translate-x-0 opacity-100' : 'translate-x-10 opacity-0 pointer-events-none'}`}
+      >
+        {currentNotification && (
+          <div className="bg-white/95 backdrop-blur-sm shadow-sm rounded p-1.5 border border-gray-100 flex items-center gap-1.5 max-w-[160px]">
+            <div className="bg-green-100 p-0.5 rounded-full shrink-0">
+              <CheckCircle size={10} className="text-green-600" />
+            </div>
+            <div>
+              <p className="text-[8px] font-bold text-gray-800 leading-none mb-0.5">{currentNotification.name}</p>
+              <p className="text-[7px] text-gray-500 leading-none">
+                de {currentNotification.city} <span className="text-green-600 font-semibold">recebeu...</span>
+              </p>
+            </div>
+          </div>
+        )}
+      </div>
+
       {/* Alert Banner */}
       <div className="w-full bg-red-600 text-white text-center py-3 px-4 font-bold text-sm md:text-base shadow-md">
         ATENÇÃO: Devido a alta demanda essa página ira sair do ar no dia <span className="text-yellow-300">{today}</span>
@@ -48,7 +106,7 @@ export const LandingPage: React.FC = () => {
         </div>
 
         {/* VSL Container */}
-        <div className="w-full max-w-2xl shadow-xl rounded-lg overflow-hidden border-4 border-white bg-black">
+        <div className="w-full max-w-2xl shadow-xl rounded-lg overflow-hidden border-4 border-white bg-black relative z-10">
            <div id="ifr_6963b277a0bc9c70579d8187_wrapper" style={{margin: '0 auto', width: '100%'}}> 
               <div style={{position: 'relative', padding: '133.33333333333331% 0 0 0'}} id="ifr_6963b277a0bc9c70579d8187_aspect"> 
                   <iframe 
